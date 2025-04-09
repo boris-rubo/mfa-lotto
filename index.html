@@ -516,6 +516,14 @@
             .cell {
                 font-size: 16px;
                 border-radius: 6px;
+                touch-action: manipulation;
+            }
+            
+            .marked {
+                background-color: var(--marked-color) !important;
+                color: var(--text-dark) !important;
+                border: 2px solid var(--marked-color) !important;
+                box-shadow: 0 0 15px var(--marked-overlay) !important;
             }
             
             .marked::after {
@@ -615,6 +623,14 @@
             
             .cell {
                 font-size: 14px;
+                touch-action: manipulation;
+            }
+            
+            .marked {
+                background-color: var(--marked-color) !important;
+                color: var(--text-dark) !important;
+                border: 2px solid var(--marked-color) !important;
+                box-shadow: 0 0 15px var(--marked-overlay) !important;
             }
             
             .marked::after {
@@ -1001,7 +1017,13 @@
                         if (storage.get(`marked-${rowIndex}-${colIndex}`) === 'true') {
                             cell.classList.add('marked');
                         }
+                        
+                        // Add both click and touch events for better mobile support
                         cell.addEventListener('click', markCell);
+                        cell.addEventListener('touchend', function(e) {
+                            e.preventDefault(); // Prevent default touch behavior
+                            markCell(e);
+                        });
                     }
                     board.appendChild(cell);
                 });
